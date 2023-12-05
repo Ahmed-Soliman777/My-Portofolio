@@ -11,9 +11,9 @@ const Sky = ({ isRotating }) => {
 
   useFrame((_, delta) => {
     if (isRotating) {
-      skyRef.current.rotation.y += 0.25 * delta
+      skyRef.current.rotation.y += 0.25 * delta; // Adjust the rotation speed as needed
     }
-  })
+  });
 
   return (
     <mesh ref={skyRef}>

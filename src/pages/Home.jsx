@@ -33,15 +33,19 @@ const Home = () => {
   }, [isPlayingMusic])
 
   const adjustIslandForScreenSize = () => {
-    let screenScale = null, screenPostion = [0, -6.5, -43], rotation = [0.1, 4.7, 0]
-    screenPostion = [0, -6.5, -43]
+
+    let screenScale, screenPosition
+
     if (window.innerWidth < 768) {
-      screenScale = [0.9, 0.9, 0.9]
+      screenScale = [0.9, 0.9, 0.9];
+      screenPosition = [0, -6.5, -43.4];
     }
+
     else {
-      screenScale = [1, 1, 1]
+      screenScale = [1, 1, 1];
+      screenPosition = [0, -6.5, -43.4];
     }
-    return [screenScale, screenPostion, rotation]
+    return [screenScale, screenPosition]
   }
 
   const adjustPlaneForScreenSize = () => {
@@ -57,7 +61,7 @@ const Home = () => {
     return [screenScale, screenPosition]
   }
 
-  const [islandScale, islandPosition, islandRotation] = adjustIslandForScreenSize()
+  const [islandScale, islandPosition] = adjustIslandForScreenSize()
   const [planeScale, planePosition] = adjustPlaneForScreenSize()
 
   return (
@@ -69,6 +73,13 @@ const Home = () => {
         <Suspense fallback={<Loader />}>
           <directionalLight position={[1, 1, 1]} intensity={2} />
           <ambientLight intensity={0.5} />
+          <pointLight position={[10, 5, 10]} intensity={2} />
+          <spotLight
+            position={[0, 50, 10]}
+            angle={0.15}
+            penumbra={1}
+            intensity={2}
+          />
           <hemisphereLight skyColor="#b1e1ff" groundColor="#000000" intensity={1} />
 
 
@@ -77,18 +88,18 @@ const Home = () => {
             isRotating={isRotating}
           />
           <Island
-            position={islandPosition}
-            sclae={islandScale}
-            rotation={islandRotation}
             isRotating={isRotating}
             setIsRotating={setIsRotating}
             setCurrentStage={setCurrentStage}
+            position={islandPosition}
+            rotation={[0.1, 4.7077, 0]}
+            scale={islandScale}
           />
           <Plane
             isRotating={isRotating}
             scale={planeScale}
             position={planePosition}
-            rotation={[0, 20, 0]}
+            rotation={[0, 20.1, 0]}
           />
 
         </Suspense>
@@ -99,7 +110,7 @@ const Home = () => {
           src={!isPlayingMusic ? soundoff : soundon}
           alt="sound"
           className='w-10 h-10 cursor-pointer object-contain'
-          onClick={ () => setIsPlayingMusic(!isPlayingMusic) }
+          onClick={() => setIsPlayingMusic(!isPlayingMusic)}
         />
       </div>
 
